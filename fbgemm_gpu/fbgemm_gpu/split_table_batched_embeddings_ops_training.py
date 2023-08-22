@@ -916,6 +916,7 @@ class SplitTableBatchedEmbeddingBagsCodegen(nn.Module):
             )
 
         (indices, offsets) = indices.long(), offsets.long()
+        """
         if self.bounds_check_mode_int != BoundsCheckMode.NONE.value:
             torch.ops.fbgemm.bounds_check_indices(
                 self.rows_per_table,
@@ -927,7 +928,7 @@ class SplitTableBatchedEmbeddingBagsCodegen(nn.Module):
                 B_offsets=vbe_metadata.B_offsets,
                 max_B=vbe_metadata.max_B,
             )
-        self.step += 1
+        """
         if len(self.timesteps_prefetched) == 0:
             self._prefetch(indices, offsets)
 
