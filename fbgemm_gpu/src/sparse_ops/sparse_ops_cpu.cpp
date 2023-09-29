@@ -2690,7 +2690,7 @@ TORCH_LIBRARY_FRAGMENT(fbgemm, m) {
       "permute_1D_sparse_data(Tensor permute, Tensor lengths, Tensor values, Tensor? weights=None, SymInt? permuted_lengths_sum=None) -> (Tensor, Tensor, Tensor?)");
   m.def("invert_permute(Tensor permute) -> Tensor");
   m.def(
-      "expand_into_jagged_permute(Tensor permute, Tensor input_offset, Tensor output_offset, int output_size) -> Tensor");
+      "expand_into_jagged_permute(Tensor permute, Tensor input_offset, Tensor output_offset, SymInt output_size) -> Tensor");
   m.def(
       "block_bucketize_sparse_features(Tensor lengths, Tensor indices, bool bucketize_pos, bool sequence, Tensor block_sizes, int my_size, Tensor? weights=None, Tensor? batch_size_per_feature=None, int max_B= -1) -> (Tensor, Tensor, Tensor?, Tensor?, Tensor?)");
   m.def(

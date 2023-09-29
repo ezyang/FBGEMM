@@ -187,7 +187,7 @@ class {{ autograd_func }} :
 
     const auto max_B_ = max_B;
     {%- else %}
-    const auto max_B_ = offsets.size(0) / T;
+    const auto max_B_ = offsets.sym_size(0).guard_int(__FILE__, __LINE__) / T;
     {%- endif %}
 
     auto [info_B_num_bits, info_B_mask] = adjust_info_B_num_bits(max_B_, T);
@@ -217,7 +217,7 @@ class {{ autograd_func }} :
         {%- endif %}
         max_B_feature_rank,
         info_B_num_bits,
-        /*total_B=*/offsets.size(0) - 1
+        /*total_B=*/offsets.sym_size(0).guard_int(__FILE__, __LINE__) - 1
         );
     {%- endif %}
 
@@ -417,7 +417,7 @@ class {{ autograd_func }} :
     // 16 for FP32 and 8 for FP16
     if (grad_output.dim() > 1 &&
         (reinterpret_cast<uint64_t>(grad_output.data_ptr()) % 16 != 0 ||
-        grad_output.stride(1) != 1 || grad_output.stride(0) % 4 != 0)) {
+        grad_output.sym_stride(1) != 1 || grad_output.sym_stride(0) % 4 != 0)) {
         grad_output = grad_output.contiguous();
     }
     if (reinterpret_cast<uint64_t>(grad_output.data_ptr()) % 16 != 0) {
